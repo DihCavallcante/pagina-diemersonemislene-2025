@@ -56,15 +56,15 @@ header h1 {
 
 .galeria {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Aumentado de 150px para 200px */
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); /* Aumentado de 150px para 200px */
   gap: 1rem;
-  width: 100%;
-  max-width: 800px;
+  width: 80%;
+  max-width: 500px;
   margin-bottom: 2rem;
 }
 
 .galeria img {
-  width: 100%;
+  width: 80%;
   height: auto; /* deixa a altura proporcional */
   object-fit: cover;
   border-radius: 12px;
