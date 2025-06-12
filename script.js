@@ -47,4 +47,30 @@ function atualizarContagem() {
   const tempoCasadosSpan = document.getElementById("tempoCasados");
 
   if (agora < casamento) {
-    casamentoElemento
+    casamentoElemento.textContent = calcularRegressiva(casamento);
+    casadosElemento.style.display = 'none';
+    document.getElementById("casamento-bloco").style.display = 'block';
+  } else {
+    casamentoElemento.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
+    tempoCasadosSpan.textContent = calcularTempo(casamento);
+    casadosElemento.style.display = 'block';
+    document.getElementById("casamento-bloco").style.display = 'none';
+  }
+}
+
+function atualizarHorario() {
+  const agora = new Date();
+  const horas = String(agora.getHours()).padStart(2, '0');
+  const minutos = String(agora.getMinutes()).padStart(2, '0');
+  const segundos = String(agora.getSeconds()).padStart(2, '0');
+
+  document.getElementById('horarioAtual').textContent = `${horas}:${minutos}:${segundos}`;
+}
+
+setInterval(() => {
+  atualizarContagem();
+  atualizarHorario();
+}, 1000);
+
+atualizarContagem();
+atualizarHorario();
