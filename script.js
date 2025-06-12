@@ -19,19 +19,29 @@ function atualizarContagem() {
     return `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
   }
 
-  document.getElementById("namoro").textContent = `Estamos juntos há: ${calcularTempo(namoro)}`;
-  document.getElementById("noivado").textContent = `Noivamos há: ${calcularTempo(noivado)}`;
+  document.getElementById("namoro").textContent = calcularTempo(namoro);
+  document.getElementById("noivado").textContent = calcularTempo(noivado);
 
   const casamentoElemento = document.getElementById("casamento");
   const casadosElemento = document.getElementById("casados");
   const tempoCasadosSpan = document.getElementById("tempoCasados");
 
   if (agora < casamento) {
-    casamentoElemento.textContent = `Faltam: ${calcularTempo(casamento)} para o nosso casamento 💍`;
+    let diff = casamento - agora;
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff -= dias * (1000 * 60 * 60 * 24);
+    const horas = Math.floor(diff / (1000 * 60 * 60));
+    diff -= horas * (1000 * 60 * 60);
+    const minutos = Math.floor(diff / (1000 * 60));
+    diff -= minutos * (1000 * 60);
+    const segundos = Math.floor(diff / 1000);
+
+    casamentoElemento.textContent = `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
     casadosElemento.style.display = 'none';
   } else {
     casamentoElemento.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
-    tempoCasadosSpan.textContent = `Estamos casados há: ${calcularTempo(casamento)} 🥰`;
+    tempoCasadosSpan.textContent = calcularTempo(casamento);
     casadosElemento.style.display = 'block';
   }
 }
