@@ -46,5 +46,14 @@ function atualizarContagem() {
   }
 }
 
+// Atualizar hora atual no rodapé
+function atualizarHora() {
+  const agora = new Date();
+  const hora = agora.toLocaleTimeString('pt-BR', { hour12: false });
+  document.getElementById('horaAtual').textContent = hora;
+}
+
 setInterval(atualizarContagem, 1000);
+setInterval(atualizarHora, 1000);
 atualizarContagem();
+atualizarHora();
