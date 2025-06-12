@@ -1,23 +1,49 @@
-const namoro = new Date('2024-08-10');
-const noivado = new Date('2025-06-10');
-const casamento = new Date('2026-04-25');
-const hoje = new Date();
+const namoro = new Date('2024-08-10T00:00:00');
+const noivado = new Date('2025-06-10T00:00:00');
+const casamento = new Date('2026-04-25T00:00:00');
 
-function diasEntre(data1, data2) {
-  const dif = data2 - data1;
-  return Math.floor(dif / (1000 * 60 * 60 * 24));
+function atualizarContagem() {
+  const agora = new Date();
+
+  function calcularTempo(inicio) {
+    let diff = agora - inicio;
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff -= dias * (1000 * 60 * 60 * 24);
+    const horas = Math.floor(diff / (1000 * 60 * 60));
+    diff -= horas * (1000 * 60 * 60);
+    const minutos = Math.floor(diff / (1000 * 60));
+    diff -= minutos * (1000 * 60);
+    const segundos = Math.floor(diff / 1000);
+
+    return `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
+  }
+
+  document.getElementById("namoro").textContent = `Estamos juntos há: ${calcularTempo(namoro)}`;
+  document.getElementById("noivado").textContent = `Noivamos há: ${calcularTempo(noivado)}`;
+
+  const casamentoElemento = document.getElementById("casamento");
+  const casadosElemento = document.getElementById("casados");
+
+  if (agora < casamento) {
+    let diff = casamento - agora;
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff -= dias * (1000 * 60 * 60 * 24);
+    const horas = Math.floor(diff / (1000 * 60 * 60));
+    diff -= horas * (1000 * 60 * 60);
+    const minutos = Math.floor(diff / (1000 * 60));
+    diff -= minutos * (1000 * 60);
+    const segundos = Math.floor(diff / 1000);
+
+    casamentoElemento.textContent = `Faltam: ${dias} dias ${horas}h ${minutos}m ${segundos}s para o nosso casamento 💍`;
+    casadosElemento.style.display = 'none';
+  } else {
+    casamentoElemento.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
+    casadosElemento.textContent = `Estamos casados há: ${calcularTempo(casamento)} 🥰`;
+    casadosElemento.style.display = 'block';
+  }
 }
 
-document.getElementById("namoro").textContent = `Estamos juntos há ${diasEntre(namoro, hoje)} dias desde o início do namoro.`;
-document.getElementById("noivado").textContent = `Noivamos há ${diasEntre(noivado, hoje)} dias.`;
-
-const casamentoElemento = document.getElementById("casamento");
-const casadosElemento = document.getElementById("casados");
-
-if (hoje < casamento) {
-  casamentoElemento.textContent = `Faltam ${diasEntre(hoje, casamento)} dias para o nosso casamento! 💍`;
-} else {
-  casamentoElemento.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
-  casadosElemento.textContent = `Estamos casados há ${diasEntre(casamento, hoje)} dias! 🥰`;
-  casadosElemento.style.display = 'block';
-}
+setInterval(atualizarContagem, 1000);
+atualizarContagem(); // executa ao carregar a página
