@@ -2,47 +2,56 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diemerson & Mislene - Nossa História</title>
+  <title>Diemerson & Mislene - Nossa História ❤️</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Diemerson & Mislene</h1>
-    <p>Nossa história de amor ❤️</p>
-  </header>
+  <div class="container">
+    <h1>❤️ Nossa História de Amor ❤️</h1>
+    <p id="horaAtual"></p>
 
-  <section class="counters">
-    <div class="counter">
-      <h2>Desde o início do namoro</h2>
+    <div class="card" id="dating">
+      <h2>Namoro</h2>
       <p id="sinceDating"></p>
+    </div>
+
+    <div class="card" id="engagement">
+      <h2>Noivado</h2>
       <p id="countdownToEngagement"></p>
-    </div>
-    <div class="counter">
-      <h2>Desde o noivado</h2>
       <p id="sinceEngagement"></p>
-      <p id="countdownToWedding"></p>
     </div>
-    <div class="counter">
+
+    <div class="card" id="wedding">
       <h2>Casamento</h2>
+      <p id="countdownToWedding"></p>
       <p id="sinceWedding"></p>
     </div>
-  </section>
 
-  <section class="gallery">
-    <h2>Nossas Fotos</h2>
     <div class="photos">
-      <img src="img/foto1.jpg" alt="Foto 1">
-      <img src="img/foto2.jpg" alt="Foto 2">
-      <img src="img/foto3.jpg" alt="Foto 3">
-      <!-- Adicione mais fotos aqui -->
+      <h2>Nossas Fotos</h2>
+      <input type="file" id="photoInput" accept="image/*">
+      <div id="gallery"></div>
     </div>
-  </section>
-
-  <footer>
-    <p>"Com você, todos os dias valem a pena." 💖</p>
-  </footer>
+  </div>
 
   <script src="script.js"></script>
+  <script>
+    const input = document.getElementById("photoInput");
+    const gallery = document.getElementById("gallery");
+
+    input.addEventListener("change", (event) => {
+      const files = event.target.files;
+      for (let file of files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.alt = "Foto nossa";
+          gallery.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
 </body>
 </html>
