@@ -5,14 +5,13 @@ const casamento = new Date('2026-04-25T00:00:00');
 function calcularTempoPassado(inicio) {
   const agora = new Date();
 
-  // Calcular dias considerando só a data, zerando horas
-  const inicioZeroHora = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
-  const agoraZeroHora = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-
-  const diffDiasMs = agoraZeroHora - inicioZeroHora;
+  // Calcula diferença em dias inteira, ignorando horas/minutos do início e do agora
+  const inicioData = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
+  const agoraData = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+  const diffDiasMs = agoraData - inicioData;
   const dias = Math.floor(diffDiasMs / (1000 * 60 * 60 * 24));
 
-  // Horas, minutos e segundos do horário atual
+  // Usa o horário atual para horas, minutos e segundos
   const horas = agora.getHours();
   const minutos = agora.getMinutes();
   const segundos = agora.getSeconds();
@@ -75,13 +74,11 @@ function atualizarHorario() {
   if (horarioSpan) horarioSpan.textContent = `${horas}:${minutos}:${segundos}`;
 }
 
-// Atualiza tudo a cada segundo
 setInterval(() => {
   atualizarContagem();
   atualizarHorario();
 }, 1000);
 
-// Atualiza na carga inicial da página
 window.onload = () => {
   atualizarContagem();
   atualizarHorario();
