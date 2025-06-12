@@ -59,7 +59,7 @@ header h1 {
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Aumentado de 150px para 200px */
   gap: 1rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin-bottom: 2rem;
 }
 
