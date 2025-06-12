@@ -24,6 +24,7 @@ function atualizarContagem() {
 
   const casamentoElemento = document.getElementById("casamento");
   const casadosElemento = document.getElementById("casados");
+  const tempoCasadosSpan = document.getElementById("tempoCasados");
 
   if (agora < casamento) {
     let diff = casamento - agora;
@@ -40,10 +41,10 @@ function atualizarContagem() {
     casadosElemento.style.display = 'none';
   } else {
     casamentoElemento.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
-    casadosElemento.textContent = `Estamos casados há: ${calcularTempo(casamento)} 🥰`;
+    tempoCasadosSpan.textContent = `Estamos casados há: ${calcularTempo(casamento)} 🥰`;
     casadosElemento.style.display = 'block';
   }
 }
 
 setInterval(atualizarContagem, 1000);
-atualizarContagem(); // executa ao carregar a página
+atualizarContagem();
