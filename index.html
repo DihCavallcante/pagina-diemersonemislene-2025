@@ -2,56 +2,54 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Diemerson & Mislene - Nossa História ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diemerson & Mislene</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>❤️ Nossa História de Amor ❤️</h1>
-    <p id="horaAtual"></p>
+  <header>
+    <h1>Diemerson & Mislene</h1>
+    <p>Nossa história de amor</p>
+  </header>
 
-    <div class="card" id="dating">
-      <h2>Namoro</h2>
-      <p id="sinceDating"></p>
-    </div>
+  <main>
+    <section class="timeline">
+      <h2>Nossa Jornada Juntos</h2>
+      <div class="cards">
 
-    <div class="card" id="engagement">
-      <h2>Noivado</h2>
-      <p id="countdownToEngagement"></p>
-      <p id="sinceEngagement"></p>
-    </div>
+        <div class="card">
+          <h3>Namoro</h3>
+          <p class="days" id="sinceDating">...</p>
+          <div class="timer" id="datingTimer"></div>
+          <p>desde 10/08/2024</p>
+        </div>
 
-    <div class="card" id="wedding">
-      <h2>Casamento</h2>
-      <p id="countdownToWedding"></p>
-      <p id="sinceWedding"></p>
-    </div>
+        <div class="card">
+          <h3>Noivado</h3>
+          <p class="days" id="sinceEngagement">...</p>
+          <div class="timer" id="engagementTimer"></div>
+          <p id="countdownToEngagement"></p>
+        </div>
 
-    <div class="photos">
+        <div class="card">
+          <h3>Casamento</h3>
+          <p class="days" id="sinceWedding">...</p>
+          <div class="timer" id="weddingTimer"></div>
+          <p id="countdownToWedding"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery">
       <h2>Nossas Fotos</h2>
-      <input type="file" id="photoInput" accept="image/*">
-      <div id="gallery"></div>
-    </div>
-  </div>
+      <input type="file" id="upload" accept="image/*" multiple>
+      <div class="photos" id="photoContainer"></div>
+    </section>
+
+    <p class="time" id="horaAtual"></p>
+  </main>
 
   <script src="script.js"></script>
-  <script>
-    const input = document.getElementById("photoInput");
-    const gallery = document.getElementById("gallery");
-
-    input.addEventListener("change", (event) => {
-      const files = event.target.files;
-      for (let file of files) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = document.createElement("img");
-          img.src = e.target.result;
-          img.alt = "Foto nossa";
-          gallery.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
 </body>
 </html>
