@@ -2,27 +2,26 @@ const namoro = new Date('2024-08-10T00:00:00');
 const noivado = new Date('2025-06-10T00:00:00');
 const casamento = new Date('2026-04-25T00:00:00');
 
-// Função para calcular tempo passado (dias, horas, minutos, segundos) desde a data inicial
+// Calcula o tempo passado desde a data inicial (contagem crescente)
 function calcularTempoPassado(inicio) {
   const agora = new Date();
 
-  // Zerando horas, minutos e segundos para dias completos
-  const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-  const inicioDia = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
+  // Datas com horas zeradas para contar dias completos
+  const inicioZeroHora = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
+  const agoraZeroHora = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
 
-  const diffDiasMs = hoje - inicioDia; // só dias em ms
+  const diffDiasMs = agoraZeroHora - inicioZeroHora;
   const dias = Math.floor(diffDiasMs / (1000 * 60 * 60 * 24));
 
-  // Tempo do dia atual em segundos
-  const segundosHoje = (agora.getHours() * 3600) + (agora.getMinutes() * 60) + agora.getSeconds();
-  const horas = Math.floor(segundosHoje / 3600);
-  const minutos = Math.floor((segundosHoje % 3600) / 60);
-  const segundos = segundosHoje % 60;
+  // Horas, minutos e segundos do dia atual
+  const horas = agora.getHours();
+  const minutos = agora.getMinutes();
+  const segundos = agora.getSeconds();
 
   return `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
 }
 
-// Função para calcular contagem regressiva até uma data futura
+// Calcula o tempo regressivo até a data futura (contagem regressiva)
 function calcularRegressiva(futuro) {
   const agora = new Date();
 
@@ -46,13 +45,11 @@ function calcularRegressiva(futuro) {
 function atualizarContagem() {
   const agora = new Date();
 
-  // "Estamos juntos há" - tempo passado
+  // Tempo passado para namoro e noivado
   document.getElementById("namoro").textContent = calcularTempoPassado(namoro);
-
-  // "Noivamos há" - tempo passado
   document.getElementById("noivado").textContent = calcularTempoPassado(noivado);
 
-  // Casamento
+  // Contagem regressiva para casamento
   const casamentoElemento = document.getElementById("casamento");
   const casadosElemento = document.getElementById("casados");
   const tempoCasadosSpan = document.getElementById("tempoCasados");
@@ -79,7 +76,7 @@ function atualizarHorario() {
   document.getElementById('horarioAtual').textContent = `${horas}:${minutos}:${segundos}`;
 }
 
-// Atualiza a cada segundo
+// Atualiza tudo a cada segundo
 setInterval(() => {
   atualizarContagem();
   atualizarHorario();
