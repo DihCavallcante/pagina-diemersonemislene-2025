@@ -2,18 +2,17 @@ const namoro = new Date('2024-08-10T00:00:00');
 const noivado = new Date('2025-06-10T00:00:00');
 const casamento = new Date('2026-04-25T00:00:00');
 
-// Calcula o tempo passado desde a data inicial (contagem crescente)
 function calcularTempoPassado(inicio) {
   const agora = new Date();
 
-  // Datas com horas zeradas para contar dias completos
+  // Calcular dias considerando só a data, zerando horas
   const inicioZeroHora = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
   const agoraZeroHora = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
 
   const diffDiasMs = agoraZeroHora - inicioZeroHora;
   const dias = Math.floor(diffDiasMs / (1000 * 60 * 60 * 24));
 
-  // Horas, minutos e segundos do dia atual
+  // Horas, minutos e segundos do horário atual
   const horas = agora.getHours();
   const minutos = agora.getMinutes();
   const segundos = agora.getSeconds();
@@ -21,7 +20,6 @@ function calcularTempoPassado(inicio) {
   return `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
 }
 
-// Calcula o tempo regressivo até a data futura (contagem regressiva)
 function calcularRegressiva(futuro) {
   const agora = new Date();
 
@@ -45,35 +43,36 @@ function calcularRegressiva(futuro) {
 function atualizarContagem() {
   const agora = new Date();
 
-  // Tempo passado para namoro e noivado
-  document.getElementById("namoro").textContent = calcularTempoPassado(namoro);
-  document.getElementById("noivado").textContent = calcularTempoPassado(noivado);
-
-  // Contagem regressiva para casamento
-  const casamentoElemento = document.getElementById("casamento");
-  const casadosElemento = document.getElementById("casados");
+  const namoroSpan = document.getElementById("namoro");
+  const noivadoSpan = document.getElementById("noivado");
+  const casamentoSpan = document.getElementById("casamento");
+  const casadosDiv = document.getElementById("casados");
   const tempoCasadosSpan = document.getElementById("tempoCasados");
+  const casamentoBloco = document.getElementById("casamento-bloco");
+
+  if (namoroSpan) namoroSpan.textContent = calcularTempoPassado(namoro);
+  if (noivadoSpan) noivadoSpan.textContent = calcularTempoPassado(noivado);
 
   if (agora < casamento) {
-    casamentoElemento.textContent = calcularRegressiva(casamento);
-    casadosElemento.style.display = 'none';
-    document.getElementById("casamento-bloco").style.display = 'block';
+    if (casamentoSpan) casamentoSpan.textContent = calcularRegressiva(casamento);
+    if (casadosDiv) casadosDiv.style.display = 'none';
+    if (casamentoBloco) casamentoBloco.style.display = 'block';
   } else {
-    casamentoElemento.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
-    tempoCasadosSpan.textContent = calcularTempoPassado(casamento);
-    casadosElemento.style.display = 'block';
-    document.getElementById("casamento-bloco").style.display = 'none';
+    if (casamentoSpan) casamentoSpan.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
+    if (tempoCasadosSpan) tempoCasadosSpan.textContent = calcularTempoPassado(casamento);
+    if (casadosDiv) casadosDiv.style.display = 'block';
+    if (casamentoBloco) casamentoBloco.style.display = 'none';
   }
 }
 
-// Atualiza o horário atual formatado hh:mm:ss
 function atualizarHorario() {
   const agora = new Date();
   const horas = String(agora.getHours()).padStart(2, '0');
   const minutos = String(agora.getMinutes()).padStart(2, '0');
   const segundos = String(agora.getSeconds()).padStart(2, '0');
 
-  document.getElementById('horarioAtual').textContent = `${horas}:${minutos}:${segundos}`;
+  const horarioSpan = document.getElementById('horarioAtual');
+  if (horarioSpan) horarioSpan.textContent = `${horas}:${minutos}:${segundos}`;
 }
 
 // Atualiza tudo a cada segundo
@@ -82,6 +81,8 @@ setInterval(() => {
   atualizarHorario();
 }, 1000);
 
-// Atualiza na carga da página
-atualizarContagem();
-atualizarHorario();
+// Atualiza na carga inicial da página
+window.onload = () => {
+  atualizarContagem();
+  atualizarHorario();
+};
