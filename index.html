@@ -1,83 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Diemerson & Mislene</title>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diemerson & Mislene - Nossa História</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="imagem-topo">
+    <img src="URL-DA-SUA-IMAGEM.jpg" alt="Foto do casal" />
+  </div>
+
   <header>
     <h1>Diemerson & Mislene</h1>
-    <p>Nossa história de amor</p>
+    <p>Nosso amor em cada momento</p>
   </header>
 
-  <section class="love-section">
-  <div class="love-quote">
-    <p>“Cada dia ao seu lado é uma nova página no livro da nossa história...”</p>
-    <p>Com todo meu amor, <strong>Diemerson</strong> ❤️ <strong>Mislene</strong></p>
-  </div>
+  <section class="contador" id="contador">
+    <div id="namoro"></div>
+    <div id="noivado"></div>
+    <div id="casamento"></div>
+    <div id="casados" style="display: none;"></div>
+  </section>
 
-  <div id="loveTimer" class="love-timer"></div>
-</section>
+  <section class="galeria">
+    <img src="https://via.placeholder.com/300x200?text=Foto+1" alt="Foto 1" />
+    <img src="https://via.placeholder.com/300x200?text=Foto+2" alt="Foto 2" />
+    <img src="https://via.placeholder.com/300x200?text=Foto+3" alt="Foto 3" />
+    <img src="https://via.placeholder.com/300x200?text=Foto+4" alt="Foto 4" />
+  </section>
 
-<section class="galeria">
-  <h2>Nossos Momentos ❤️</h2>
-  <div class="fotos">
-    <img src="fotos/foto1.jpg" alt="Foto 1">
-    <img src="fotos/foto2.jpg" alt="Foto 2">
-    <img src="fotos/foto3.jpg" alt="Foto 3">
-  </div>
-</section>
+  <section class="mensagem">
+    <h2>Uma mensagem de amor</h2>
+    <p>
+      Cada dia ao seu lado é um presente de Deus. Que nosso amor continue crescendo,
+      firme como rocha e doce como o primeiro "eu te amo". Obrigado(a) por caminhar
+      comigo. Te amo para sempre. ❤️
+    </p>
+  </section>
 
-  <main>
-    <section class="timeline">
-      <h2>Nossa Jornada Juntos</h2>
-      <div class="cards">
-
-        <div class="card">
-          <h3>Namoro</h3>
-          <p class="days" id="sinceDating">...</p>
-          <div class="timer" id="datingTimer"></div>
-          <p>desde 10/08/2024</p>
-        </div>
-
-        <div class="card">
-          <h3>Noivado</h3>
-          <p class="days" id="sinceEngagement">...</p>
-          <div class="timer" id="engagementTimer"></div>
-          <p id="countdownToEngagement"></p>
-        </div>
-
-        <div class="love-quote" data-aos="fade-up">
-  <!-- Conteúdo -->
-</div>
-
-
-          <div class="card">
-          <h3>Casamento</h3>
-          <p class="days" id="sinceWedding">...</p>
-          <div class="timer" id="weddingTimer"></div>
-          <p id="countdownToWedding"></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="gallery">
-      <h2>Nossas Fotos</h2>
-      <input type="file" id="upload" accept="image/*" multiple>
-      <div class="photos" id="photoContainer"></div>
-    </section>
-
-    <p class="time" id="horaAtual"></p>
-  </main>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init();
-</script>
-  
   <script src="script.js"></script>
 </body>
 </html>
