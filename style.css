@@ -49,8 +49,11 @@ header h1 {
 }
 
 .contador div {
-  font-size: 1rem; /* fonte ajustada */
+  font-size: 1rem; /* ou use 0.95rem se quiser menor ainda */
+  font-weight: 500;
+  color: #444;
 }
+
 
 .galeria {
   display: grid;
