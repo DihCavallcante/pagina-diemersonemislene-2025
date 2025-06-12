@@ -163,3 +163,35 @@ main {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.galeria {
+  text-align: center;
+  padding: 2rem;
+  background: #fff0f5;
+}
+
+.galeria h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #d72638;
+}
+
+.fotos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.fotos img {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.fotos img:hover {
+  transform: scale(1.05);
+}
+
+
