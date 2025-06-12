@@ -1,54 +1,111 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(to bottom, #ffe6e6, #fff);
   margin: 0;
-  padding: 0;
-  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  background: #fff0f5;
   color: #333;
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
+header {
+  background: pink;
+  text-align: center;
+  padding: 2rem;
+  box-shadow: 0 0 10px #ffb6c1;
 }
 
-h1 {
-  font-size: 2em;
-  margin-bottom: 20px;
+header h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 3rem;
+  color: #e75480;
+  margin: 0;
 }
 
-.card {
-  background: #fff0f5;
-  border: 2px solid #ffb6c1;
-  border-radius: 15px;
-  padding: 15px;
-  margin: 10px 0;
-  box-shadow: 0 0 10px rgba(255, 182, 193, 0.4);
+header p {
+  font-size: 1.2rem;
+  color: #555;
 }
 
-.card h2 {
-  margin-top: 0;
-  color: #d63384;
+main {
+  padding: 2rem;
 }
 
-.photos {
-  margin-top: 30px;
+.timeline h2, .gallery h2 {
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  color: #d2691e;
+  font-size: 2rem;
 }
 
-.photos input {
-  margin-bottom: 15px;
-}
-
-#gallery {
+.cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-#gallery img {
-  max-width: 150px;
+.card {
+  background: linear-gradient(to bottom right, #ffe6ec, #ffd6e7);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 0 10px #fbb;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card h3 {
+  color: #c71585;
+  margin-bottom: 0.5rem;
+}
+
+.days {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #c1446e;
+}
+
+.timer {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.gallery {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+#upload {
+  margin: 1rem auto;
+  display: block;
+}
+
+.photos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.photos img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 0 5px #aaa;
+}
+
+.time {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1rem;
+  color: #666;
 }
