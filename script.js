@@ -2,28 +2,31 @@ const namoro = new Date('2024-08-10T00:00:00');
 const noivado = new Date('2025-06-10T00:00:00');
 const casamento = new Date('2026-04-25T00:00:00');
 
-function calcularTempoPassado(inicio) {
+function calcularDiferencaPassado(inicio) {
   const agora = new Date();
+  let diff = agora - inicio; // diferença em ms (passado)
 
-  // Calcula diferença em dias inteira, ignorando horas/minutos do início e do agora
-  const inicioData = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
-  const agoraData = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-  const diffDiasMs = agoraData - inicioData;
-  const dias = Math.floor(diffDiasMs / (1000 * 60 * 60 * 24));
+  if (diff < 0) diff = 0; // para evitar números negativos se data no futuro
 
-  // Usa o horário atual para horas, minutos e segundos
-  const horas = agora.getHours();
-  const minutos = agora.getMinutes();
-  const segundos = agora.getSeconds();
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  diff -= dias * (1000 * 60 * 60 * 24);
+
+  const horas = Math.floor(diff / (1000 * 60 * 60));
+  diff -= horas * (1000 * 60 * 60);
+
+  const minutos = Math.floor(diff / (1000 * 60));
+  diff -= minutos * (1000 * 60);
+
+  const segundos = Math.floor(diff / 1000);
 
   return `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
 }
 
-function calcularRegressiva(futuro) {
+function calcularDiferencaFuturo(futuro) {
   const agora = new Date();
+  let diff = futuro - agora; // diferença em ms (futuro)
 
-  let diff = futuro - agora;
-  if (diff < 0) return "0 dias 0h 0m 0s";
+  if (diff < 0) diff = 0;
 
   const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
   diff -= dias * (1000 * 60 * 60 * 24);
@@ -49,16 +52,16 @@ function atualizarContagem() {
   const tempoCasadosSpan = document.getElementById("tempoCasados");
   const casamentoBloco = document.getElementById("casamento-bloco");
 
-  if (namoroSpan) namoroSpan.textContent = calcularTempoPassado(namoro);
-  if (noivadoSpan) noivadoSpan.textContent = calcularTempoPassado(noivado);
+  if (namoroSpan) namoroSpan.textContent = calcularDiferencaPassado(namoro);
+  if (noivadoSpan) noivadoSpan.textContent = calcularDiferencaPassado(noivado);
 
   if (agora < casamento) {
-    if (casamentoSpan) casamentoSpan.textContent = calcularRegressiva(casamento);
+    if (casamentoSpan) casamentoSpan.textContent = calcularDiferencaFuturo(casamento);
     if (casadosDiv) casadosDiv.style.display = 'none';
     if (casamentoBloco) casamentoBloco.style.display = 'block';
   } else {
     if (casamentoSpan) casamentoSpan.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
-    if (tempoCasadosSpan) tempoCasadosSpan.textContent = calcularTempoPassado(casamento);
+    if (tempoCasadosSpan) tempoCasadosSpan.textContent = calcularDiferencaPassado(casamento);
     if (casadosDiv) casadosDiv.style.display = 'block';
     if (casamentoBloco) casamentoBloco.style.display = 'none';
   }
