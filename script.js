@@ -1,7 +1,6 @@
 const datingDate = new Date("2024-08-10");
 const engagementDate = new Date("2025-06-10");
 const weddingDate = new Date("2026-04-25");
-const today = new Date();
 
 function getDaysDiff(from, to) {
   const diffTime = to - from;
@@ -9,6 +8,8 @@ function getDaysDiff(from, to) {
 }
 
 function updateCounters() {
+  const today = new Date();
+
   const sinceDating = getDaysDiff(datingDate, today);
   const sinceEngagement = today >= engagementDate ? getDaysDiff(engagementDate, today) : 0;
   const sinceWedding = today >= weddingDate ? getDaysDiff(weddingDate, today) : 0;
@@ -23,6 +24,15 @@ function updateCounters() {
   document.getElementById("countdownToWedding").textContent = today < weddingDate ? `Faltam ${toWedding} dias para o casamento.` : "Já estamos casados! 💒";
 
   document.getElementById("sinceWedding").textContent = today >= weddingDate ? `${sinceWedding} dias de casados.` : `Aguardando o grande dia...`;
+
+  // Atualiza também a hora ao vivo (opcional)
+  const horaAgora = today.toLocaleTimeString("pt-BR");
+  document.getElementById("horaAtual").textContent = `Hora agora: ${horaAgora}`;
 }
 
+// Atualização em tempo real a cada 1 segundo
+setInterval(updateCounters, 1000);
+
+// Atualiza na primeira vez ao carregar
 updateCounters();
+
