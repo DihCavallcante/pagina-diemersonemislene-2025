@@ -47,14 +47,4 @@ function atualizarContagem() {
   const tempoCasadosSpan = document.getElementById("tempoCasados");
 
   if (agora < casamento) {
-    casamentoElemento.textContent = calcularRegressiva(casamento);
-    casadosElemento.style.display = 'none';
-  } else {
-    casamentoElemento.textContent = `Nos casamos em ${casamento.toLocaleDateString('pt-BR')} 💒`;
-    tempoCasadosSpan.textContent = calcularTempo(casamento);
-    casadosElemento.style.display = 'block';
-  }
-}
-
-setInterval(atualizarContagem, 1000);
-atualizarContagem();
+    casamentoElemento
