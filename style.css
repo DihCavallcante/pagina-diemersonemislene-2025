@@ -67,6 +67,23 @@ header h1 {
   color: #444;
 }
 
+.contador {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  margin: 2rem auto;
+}
+
+.bloco {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+
 .galeria {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
