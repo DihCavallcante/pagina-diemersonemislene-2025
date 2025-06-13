@@ -17,9 +17,9 @@ function formatTimeDiff(diffMs) {
 
 // Atualiza contadores de tempo
 function atualizarContadores() {
-  const namoroInicio = new Date('2021-06-13');    // Data do início do namoro
-  const noivadoInicio = new Date('2024-01-20');   // Data do noivado
-  const casamentoData = new Date('2025-12-15');   // Data do casamento
+  const namoroInicio = new Date('2024-08-10');    // Data do início do namoro
+  const noivadoInicio = new Date('2025-06-10');   // Data do noivado
+  const casamentoData = new Date('2026-04-25');   // Data do casamento
 
   const agora = new Date();
 
