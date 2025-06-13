@@ -1,4 +1,3 @@
-// Formata diferença de datas para texto legível
 function formatTimeDiff(diffMs) {
   const seconds = Math.floor(diffMs / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -15,48 +14,57 @@ function formatTimeDiff(diffMs) {
   return `${seconds} segundo${seconds > 1 ? 's' : ''}`;
 }
 
-// Atualiza os contadores de tempo
 function atualizarContadores() {
-  const namoroInicio = new Date('2024-08-10');    // Data do início do namoro
-  const noivadoInicio = new Date('2025-06-10');   // Data do noivado
-  const casamentoData = new Date('2026-04-25');   // Data do casamento
-
+  const namoroInicio = new Date('2024-08-10');
+  const noivadoInicio = new Date('2025-06-10');
+  const casamentoData = new Date('2026-04-25');
   const agora = new Date();
 
-  // Tempo juntos (namoro)
   const diffNamoro = agora - namoroInicio;
-  document.getElementById('namoro').textContent = formatTimeDiff(diffNamoro);
-
-  // Tempo de noivado
   const diffNoivado = agora - noivadoInicio;
-  document.getElementById('noivado').textContent = formatTimeDiff(diffNoivado);
-
-  // Tempo para casamento
   const diffCasamento = casamentoData - agora;
+
+  if (document.getElementById('namoro'))
+    document.getElementById('namoro').textContent = formatTimeDiff(diffNamoro);
+
+  if (document.getElementById('noivado'))
+    document.getElementById('noivado').textContent = formatTimeDiff(diffNoivado);
+
   if (diffCasamento > 0) {
-    document.getElementById('casamento').textContent = formatTimeDiff(diffCasamento);
+    if (document.getElementById('casamento'))
+      document.getElementById('casamento').textContent = formatTimeDiff(diffCasamento);
     document.getElementById('casamento-bloco').style.display = 'block';
     document.getElementById('casados').style.display = 'none';
   } else {
-    // Se já casados
     const diffCasados = agora - casamentoData;
-    document.getElementById('tempoCasados').textContent = formatTimeDiff(diffCasados);
+    if (document.getElementById('tempoCasados'))
+      document.getElementById('tempoCasados').textContent = formatTimeDiff(diffCasados);
     document.getElementById('casamento-bloco').style.display = 'none';
     document.getElementById('casados').style.display = 'block';
   }
 }
 
-// Atualiza horário atual no rodapé
 function atualizarHorario() {
   const agora = new Date();
-  const horarioFormatado = agora.toLocaleTimeString('pt-BR', { hour12: false });
-  document.getElementById('horarioAtual').textContent = horarioFormatado;
+  const horario = agora.toLocaleTimeString('pt-BR', { hour12: false });
+  const span = document.getElementById('horarioAtual');
+  if (span) span.textContent = horario;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const som = document.getElementById('clickSound');
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (som) {
+        som.currentTime = 0;
+        som.play();
+      }
+    });
+  });
+
   atualizarContadores();
   atualizarHorario();
 
-  setInterval(atualizarHorario, 1000);
   setInterval(atualizarContadores, 60000);
+  setInterval(atualizarHorario, 1000);
 });
