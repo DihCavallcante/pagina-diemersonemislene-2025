@@ -5,18 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Diemerson & Mislene - Nossa História</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+  <audio id="clickSound" src="som-romantico.mp3" preload="auto"></audio>
+
+  <div class="coracoes-container"></div>
+
   <nav class="menu-lateral">
     <ul>
-      <li><a href="nossa-historia.html">Nossa História</a></li>
-      <li><a href="passeios.html">Passeios</a></li>
-      <li><a href="viagens.html">Viagens</a></li>
-      <li><a href="igreja.html">Igreja</a></li>
-      <li><a href="momentos.html">Momentos</a></li>
-      <li><a href="dias-especiais.html">Dias Especiais</a></li>
-      <li><a href="casamento.html">Casamento</a></li>
-      <li><a href="index.html" class="botao-voltar">Voltar ao Início</a></li>
+      <li><a href="index.html" onclick="playClickSound()"><i class="fas fa-heart"></i> Nossa História</a></li>
+      <li><a href="passeios.html" onclick="playClickSound()"><i class="fas fa-tree"></i> Passeios</a></li>
+      <li><a href="viagens.html" onclick="playClickSound()"><i class="fas fa-plane"></i> Viagens</a></li>
+      <li><a href="igreja.html" onclick="playClickSound()"><i class="fas fa-church"></i> Igreja</a></li>
+      <li><a href="momentos.html" onclick="playClickSound()"><i class="fas fa-camera"></i> Momentos</a></li>
+      <li><a href="dias.html" onclick="playClickSound()"><i class="fas fa-calendar-heart"></i> Dias Especiais</a></li>
+      <li><a href="casamento.html" onclick="playClickSound()"><i class="fas fa-ring"></i> Casamento</a></li>
     </ul>
   </nav>
 
