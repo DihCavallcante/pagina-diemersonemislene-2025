@@ -1,82 +1,79 @@
-// Datas dos eventos (ajuste conforme pedido)
-const namoroInicio = new Date('2024-08-10T00:00:00');
-const noivadoInicio = new Date('2025-06-10T00:00:00');
-const casamentoData = new Date('2026-04-25T00:00:00');
-
-const audioClick = document.getElementById('audioClick');
-
+// Função para formatar diferença de datas em anos, meses, dias, horas, minutos e segundos
 function formatTimeDiff(diffMs) {
-  let totalSeconds = Math.floor(diffMs / 1000);
-  let seconds = totalSeconds % 60;
-  let totalMinutes = Math.floor(totalSeconds / 60);
-  let minutes = totalMinutes % 60;
-  let totalHours = Math.floor(totalMinutes / 60);
-  let hours = totalHours % 24;
-  let days = Math.floor(totalHours / 24);
+  const seconds = Math.floor(diffMs / 1000) % 60;
+  const minutes = Math.floor(diffMs / (1000 * 60)) % 60;
+  const hours = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-  return `${days} dia${days !== 1 ? 's' : ''}, ${hours} hora${hours !== 1 ? 's' : ''}, ` +
-         `${minutes} minuto${minutes !== 1 ? 's' : ''}, ${seconds} segundo${seconds !== 1 ? 's' : ''}`;
+  return `${days} dia${days !== 1 ? 's' : ''}, ` +
+         `${hours} hora${hours !== 1 ? 's' : ''}, ` +
+         `${minutes} minuto${minutes !== 1 ? 's' : ''}, ` +
+         `${seconds} segundo${seconds !== 1 ? 's' : ''}`;
 }
 
+// Atualiza contadores de tempo para namoro, noivado e casamento
 function atualizarContadores() {
+  const namoroInicio = new Date('2024-08-10T00:00:00');
+  const noivadoInicio = new Date('2025-06-10T00:00:00');
+  const casamentoData = new Date('2026-04-25T00:00:00');
+
   const agora = new Date();
 
-  // Namoro
-  let diffNamoro = agora - namoroInicio;
-  document.getElementById('namoro').textContent = diffNamoro > 0 ? formatTimeDiff(diffNamoro) : 'Ainda não começou';
+  // Tempo juntos (namoro)
+  const diffNamoro = agora - namoroInicio;
+  document.getElementById('namoro').textContent = formatTimeDiff(diffNamoro);
 
-  // Noivado
-  let diffNoivado = agora - noivadoInicio;
-  document.getElementById('noivado').textContent = diffNoivado > 0 ? formatTimeDiff(diffNoivado) : 'Ainda não começou';
+  // Tempo de noivado
+  const diffNoivado = agora - noivadoInicio;
+  document.getElementById('noivado').textContent = formatTimeDiff(diffNoivado);
 
-  // Casamento - contagem regressiva ou tempo desde o casamento
-  let diffCasamento = casamentoData - agora;
+  // Contagem regressiva para casamento ou tempo desde casamento
+  const diffCasamento = casamentoData - agora;
+
   if (diffCasamento > 0) {
+    // Antes do casamento — contagem regressiva
     document.getElementById('casamento').textContent = formatTimeDiff(diffCasamento);
-    document.getElementById('casados').style.display = 'none';
     document.getElementById('casamento-bloco').style.display = 'block';
+    document.getElementById('casados').style.display = 'none';
   } else {
-    let diffCasados = agora - casamentoData;
+    // Depois do casamento — tempo casados
+    const diffCasados = agora - casamentoData;
     document.getElementById('tempoCasados').textContent = formatTimeDiff(diffCasados);
-    document.getElementById('casados').style.display = 'block';
     document.getElementById('casamento-bloco').style.display = 'none';
+    document.getElementById('casados').style.display = 'block';
   }
 }
 
-function tocarSom() {
-  if (audioClick) {
-    audioClick.currentTime = 0;
-    audioClick.play();
+// Atualiza horário atual no rodapé a cada segundo
+function atualizarHorario() {
+  const agora = new Date();
+  const horarioFormatado = agora.toLocaleTimeString('pt-BR', { hour12: false });
+  const elemHorario = document.getElementById('horarioAtual');
+  if (elemHorario) {
+    elemHorario.textContent = horarioFormatado;
   }
 }
 
-function criarCoracao() {
-  const container = document.querySelector('.coracoes-container');
-  if (!container) return;
-
-  const coracao = document.createElement('div');
-  coracao.classList.add('coracao');
-
-  coracao.style.left = Math.random() * 100 + 'vw';
-  coracao.style.animationDuration = (4 + Math.random() * 3) + 's';
-  coracao.style.opacity = Math.random();
-
-  container.appendChild(coracao);
-
-  setTimeout(() => {
-    coracao.remove();
-  }, 7000);
-}
-
-function initCoracoes() {
-  setInterval(criarCoracao, 500);
-}
-
-// Destaca link ativo baseado na URL (útil em navegação entre páginas)
-function destacarLinkAtivo() {
+// Atualiza link ativo no menu lateral conforme seção visível na viewport
+function atualizarLinkAtivo() {
   const links = document.querySelectorAll('.menu-lateral a');
-  links.forEach(link => {
-    if (link.href === window.location.href) {
+  let indiceAtivo = -1;
+
+  links.forEach((link, i) => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      const secao = document.querySelector(href);
+      if (secao) {
+        const rect = secao.getBoundingClientRect();
+        if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 4) {
+          indiceAtivo = i;
+        }
+      }
+    }
+  });
+
+  links.forEach((link, i) => {
+    if (i === indiceAtivo) {
       link.classList.add('active');
     } else {
       link.classList.remove('active');
@@ -84,21 +81,36 @@ function destacarLinkAtivo() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  atualizarContadores();
-  initCoracoes();
-  destacarLinkAtivo();
+// Tocar som romântico ao clicar nos botões do menu lateral
+function adicionarSomClick() {
+  // Coloque o caminho do seu som romântico aqui (mp3, wav, etc)
+  const somClick = new Audio('som-romantico.mp3');
 
-  // Atualiza contadores a cada segundo para tempo real
-  setInterval(atualizarContadores, 1000);
+  const botoes = document.querySelectorAll('.menu-lateral a');
+  botoes.forEach(botao => {
+    botao.addEventListener('click', (e) => {
+      e.preventDefault(); // impede navegação imediata para tocar som primeiro
+      somClick.currentTime = 0;
+      somClick.play();
 
-  // Som ao clicar nos links do menu
-  const linksMenu = document.querySelectorAll('.menu-lateral a');
-  linksMenu.forEach(link => {
-    link.addEventListener('click', () => {
-      tocarSom();
-      // Navegação padrão já funciona se href for uma página real
-      // Aqui não precisamos manipular o evento para não bloquear a navegação
+      const href = botao.getAttribute('href');
+      // Navegar para outra página ou seção após som tocar
+      somClick.onended = () => {
+        window.location.href = href;
+      };
     });
   });
+}
+
+// Inicialização após carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  atualizarContadores();
+  atualizarHorario();
+  atualizarLinkAtivo();
+  adicionarSomClick();
+
+  // Atualizações periódicas
+  setInterval(atualizarHorario, 1000);       // a cada segundo
+  setInterval(atualizarContadores, 1000);    // a cada segundo para contagem em tempo real
+  window.addEventListener('scroll', atualizarLinkAtivo);
 });
