@@ -2,10 +2,6 @@
   --rosa-claro: #ffe6f0;
   --rosa-medio: #ffb6c1;
   --vermelho-romantico: #ff4d6d;
-  --marsala: #6e1e2b;
-  --bege: #f5f5dc;
-  --vinho: #8b0000;
-  --azul-marinho: #2c3e50;
   --branco: #ffffff;
 }
 
@@ -23,56 +19,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  scroll-behavior: smooth; /* Scroll suave */
-}
-
-.menu-lateral {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 100vh;
-  background-color: var(--vermelho-romantico);
-  padding-top: 2rem;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-}
-
-.menu-lateral ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-left: 0;
-}
-
-.menu-lateral ul li {
-  margin-left: 1rem;
-}
-
-.menu-lateral ul li a {
-  text-decoration: none;
-  color: var(--branco);
-  font-weight: 700;
-  font-size: 1.1rem;
-  padding: 0.6rem 1rem;
-  border-radius: 30px;
-  display: block;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.menu-lateral ul li a:hover,
-.menu-lateral ul li a:focus {
-  background-color: var(--rosa-medio);
-  color: var(--vermelho-romantico);
-  transform: scale(1.05);
-  outline: none;
-}
-
-.conteudo {
-  margin-left: 240px;
-  max-width: 700px;
-  width: 100%;
-  padding-bottom: 4rem;
 }
 
 header {
@@ -83,6 +29,8 @@ header {
   margin-bottom: 2rem;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
 }
 
 header h1 {
@@ -99,7 +47,8 @@ header h1 {
   padding: 1.5rem;
   border-radius: 20px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  max-width: 700px;
+  margin: 2rem auto;
 }
 
 .bloco {
@@ -119,25 +68,12 @@ header h1 {
   transform: scale(1.05);
 }
 
-.secao {
-  background-color: var(--rosa-medio);
-  padding: 2rem;
-  border-radius: 20px;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: var(--branco);
-}
-
-.secao h2 {
-  margin-bottom: 1rem;
-  font-size: 2rem;
-}
-
 .galeria {
   display: flex;
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+  max-width: 700px;
   margin-bottom: 2rem;
 }
 
@@ -155,13 +91,14 @@ header h1 {
 }
 
 .mensagem {
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
   background-color: var(--rosa-medio);
   color: var(--branco);
   padding: 2rem;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 .mensagem h2 {
@@ -180,10 +117,39 @@ footer {
   text-align: center;
   padding: 1rem;
   border-radius: 0 0 20px 20px;
+  max-width: 700px;
+  margin: 0 auto 1rem auto;
   font-weight: 600;
 }
 
-/* Botão voltar ao início */
+/* MEDIA QUERIES */
+
+@media (max-width: 768px) {
+  .contador {
+    flex-wrap: wrap;
+  }
+
+  .bloco {
+    flex: 1 1 100%;
+    margin-bottom: 1rem;
+  }
+
+  .galeria {
+    gap: 0.5rem;
+  }
+
+  .galeria img {
+    width: calc(50% - 0.25rem);
+  }
+}
+
+@media (max-width: 400px) {
+  .galeria img {
+    width: 100%;
+  }
+}
+
+/* NOVO: Botão Voltar ao Início */
 #btn-voltar-inicio {
   position: fixed;
   bottom: 20px;
@@ -203,37 +169,4 @@ footer {
 #btn-voltar-inicio:hover {
   background-color: #e04360;
   transform: scale(1.1);
-}
-
-/* MEDIA QUERIES */
-
-@media (max-width: 900px) {
-  .menu-lateral {
-    position: relative;
-    width: 100%;
-    height: auto;
-    padding: 1rem 0;
-    box-shadow: none;
-  }
-
-  .menu-lateral ul {
-    flex-direction: row;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .conteudo {
-    margin-left: 0;
-    padding: 1rem;
-  }
-
-  .galeria img {
-    width: calc(50% - 0.5rem);
-  }
-}
-
-@media (max-width: 400px) {
-  .galeria img {
-    width: 100%;
-  }
 }
