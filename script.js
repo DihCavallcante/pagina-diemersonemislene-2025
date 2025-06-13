@@ -95,4 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Atualiza link ativo ao rolar a página
   window.addEventListener('scroll', atualizarLinkAtivo);
+
+  // Botão voltar ao início
+const btnVoltarInicio = document.getElementById('btn-voltar-inicio');
+
+btnVoltarInicio.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
