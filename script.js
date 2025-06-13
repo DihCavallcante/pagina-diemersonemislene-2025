@@ -1,70 +1,97 @@
-function formatTimeDiff(diffMs) {
-  const seconds = Math.floor(diffMs / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(months / 12);
+// Formata diferença de tempo com dias, horas, minutos e segundos
+function formatTimeDiffCompleta(diffMs) {
+  const totalSeconds = Math.floor(diffMs / 1000);
 
-  if (years > 0) return `${years} ano${years > 1 ? 's' : ''}`;
-  if (months > 0) return `${months} mês${months > 1 ? 'es' : ''}`;
-  if (days > 0) return `${days} dia${days > 1 ? 's' : ''}`;
-  if (hours > 0) return `${hours} hora${hours > 1 ? 's' : ''}`;
-  if (minutes > 0) return `${minutes} minuto${minutes > 1 ? 's' : ''}`;
-  return `${seconds} segundo${seconds > 1 ? 's' : ''}`;
+  const seconds = totalSeconds % 60;
+  const minutes = Math.floor(totalSeconds / 60) % 60;
+  const hours = Math.floor(totalSeconds / 3600) % 24;
+  const days = Math.floor(totalSeconds / 86400);
+
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
+// Atualiza contadores de tempo
 function atualizarContadores() {
-  const namoroInicio = new Date('2024-08-10');
-  const noivadoInicio = new Date('2025-06-10');
-  const casamentoData = new Date('2026-04-25');
+  const namoroInicio = new Date('2024-08-10T00:00:00');
+  const noivadoInicio = new Date('2025-06-10T00:00:00');
+  const casamentoData = new Date('2026-04-25T00:00:00');
   const agora = new Date();
 
+  // Namoro
   const diffNamoro = agora - namoroInicio;
+  const spanNamoro = document.getElementById('namoro');
+  if (spanNamoro) spanNamoro.textContent = formatTimeDiffCompleta(diffNamoro);
+
+  // Noivado
   const diffNoivado = agora - noivadoInicio;
+  const spanNoivado = document.getElementById('noivado');
+  if (spanNoivado) spanNoivado.textContent = formatTimeDiffCompleta(diffNoivado);
+
+  // Casamento
   const diffCasamento = casamentoData - agora;
-
-  if (document.getElementById('namoro'))
-    document.getElementById('namoro').textContent = formatTimeDiff(diffNamoro);
-
-  if (document.getElementById('noivado'))
-    document.getElementById('noivado').textContent = formatTimeDiff(diffNoivado);
+  const spanCasamento = document.getElementById('casamento');
+  const blocoCasamento = document.getElementById('casamento-bloco');
+  const blocoCasados = document.getElementById('casados');
+  const spanCasados = document.getElementById('tempoCasados');
 
   if (diffCasamento > 0) {
-    if (document.getElementById('casamento'))
-      document.getElementById('casamento').textContent = formatTimeDiff(diffCasamento);
-    document.getElementById('casamento-bloco').style.display = 'block';
-    document.getElementById('casados').style.display = 'none';
+    if (spanCasamento) spanCasamento.textContent = formatTimeDiffCompleta(diffCasamento);
+    if (blocoCasamento) blocoCasamento.style.display = 'block';
+    if (blocoCasados) blocoCasados.style.display = 'none';
   } else {
     const diffCasados = agora - casamentoData;
-    if (document.getElementById('tempoCasados'))
-      document.getElementById('tempoCasados').textContent = formatTimeDiff(diffCasados);
-    document.getElementById('casamento-bloco').style.display = 'none';
-    document.getElementById('casados').style.display = 'block';
+    if (spanCasados) spanCasados.textContent = formatTimeDiffCompleta(diffCasados);
+    if (blocoCasamento) blocoCasamento.style.display = 'none';
+    if (blocoCasados) blocoCasados.style.display = 'block';
   }
 }
 
+// Atualiza horário atual no rodapé
 function atualizarHorario() {
   const agora = new Date();
-  const horario = agora.toLocaleTimeString('pt-BR', { hour12: false });
-  const span = document.getElementById('horarioAtual');
-  if (span) span.textContent = horario;
+  const horarioFormatado = agora.toLocaleTimeString('pt-BR', { hour12: false });
+  document.getElementById('horarioAtual').textContent = horarioFormatado;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const som = document.getElementById('clickSound');
-  document.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      if (som) {
-        som.currentTime = 0;
-        som.play();
+// Destaca link ativo conforme rolagem
+function atualizarLinkAtivo() {
+  const links = document.querySelectorAll('.menu-lateral a');
+  let indiceAtivo = -1;
+
+  links.forEach((link, i) => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      const secao = document.querySelector(href);
+      if (secao) {
+        const rect = secao.getBoundingClientRect();
+        if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 4) {
+          indiceAtivo = i;
+        }
       }
-    });
+    }
   });
 
+  links.forEach((link, i) => {
+    if (i === indiceAtivo) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+// Inicialização e intervalos
+document.addEventListener('DOMContentLoaded', () => {
   atualizarContadores();
   atualizarHorario();
+  atualizarLinkAtivo();
 
-  setInterval(atualizarContadores, 60000);
+  // Atualiza horário a cada segundo
   setInterval(atualizarHorario, 1000);
+
+  // Atualiza contadores a cada segundo também
+  setInterval(atualizarContadores, 1000);
+
+  // Atualiza link ativo ao rolar a página
+  window.addEventListener('scroll', atualizarLinkAtivo);
 });
