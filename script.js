@@ -1,9 +1,9 @@
-// Datas importantes (exemplo, ajuste para datas reais)
-const dataNamoro = new Date('2019-02-16T00:00:00'); // Data do início do namoro
-const dataNoivado = new Date('2023-03-26T00:00:00'); // Data do noivado
-const dataCasamento = new Date('2025-12-05T00:00:00'); // Data do casamento
+// -- Suas funções originais de contadores e horário (coloque seu código completo aqui) --
 
-// Elementos HTML
+const dataNamoro = new Date('2019-02-16T00:00:00'); // exemplo
+const dataNoivado = new Date('2023-03-26T00:00:00');
+const dataCasamento = new Date('2025-12-05T00:00:00');
+
 const elemNamoro = document.getElementById('namoro');
 const elemNoivado = document.getElementById('noivado');
 const elemCasamento = document.getElementById('casamento');
@@ -14,7 +14,6 @@ const elemHorarioAtual = document.getElementById('horarioAtual');
 function calculaTempoDecorrido(dataInicial) {
   const agora = new Date();
   const diffMs = agora - dataInicial;
-
   if(diffMs < 0) return null;
 
   const dias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
@@ -28,7 +27,6 @@ function calculaTempoDecorrido(dataInicial) {
 function calculaTempoRestante(dataFutura) {
   const agora = new Date();
   const diffMs = dataFutura - agora;
-
   if(diffMs < 0) return null;
 
   const dias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
@@ -45,15 +43,12 @@ function formataTempo(tempo) {
 }
 
 function atualizaContadores() {
-  // Namoro
   const tempoNamoro = calculaTempoDecorrido(dataNamoro);
   elemNamoro.textContent = formataTempo(tempoNamoro);
 
-  // Noivado
   const tempoNoivado = calculaTempoDecorrido(dataNoivado);
   elemNoivado.textContent = formataTempo(tempoNoivado);
 
-  // Casamento
   const tempoRestanteCasamento = calculaTempoRestante(dataCasamento);
 
   if(tempoRestanteCasamento) {
@@ -61,7 +56,6 @@ function atualizaContadores() {
     document.getElementById('casamento-bloco').style.display = 'block';
     elemCasados.parentElement.style.display = 'none';
   } else {
-    // Casados há quanto tempo
     const tempoCasados = calculaTempoDecorrido(dataCasamento);
     elemTempoCasados.textContent = formataTempo(tempoCasados);
     document.getElementById('casamento-bloco').style.display = 'none';
@@ -79,14 +73,17 @@ function atualizaHorario() {
   elemHorarioAtual.textContent = `${hora}:${min}:${seg}`;
 }
 
-// Atualiza tudo a cada segundo
 setInterval(() => {
   atualizaContadores();
   atualizaHorario();
 }, 1000);
 
-// Botão voltar ao início
-const btnVoltarInicio = document.getElementById('btn-voltar-inicio');
+// NOVO: Botão Voltar ao Início
+const btnVoltarInicio = document.createElement('button');
+btnVoltarInicio.id = 'btn-voltar-inicio';
+btnVoltarInicio.textContent = 'Início ↑';
+document.body.appendChild(btnVoltarInicio);
+
 btnVoltarInicio.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
