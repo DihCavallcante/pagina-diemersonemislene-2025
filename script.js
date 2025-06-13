@@ -1,104 +1,92 @@
-// Função para formatar diferença de datas em anos, meses, dias, etc.
-function formatTimeDiff(diffMs) {
-  const seconds = Math.floor(diffMs / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(months / 12);
+// Datas importantes (exemplo, ajuste para datas reais)
+const dataNamoro = new Date('2019-02-16T00:00:00'); // Data do início do namoro
+const dataNoivado = new Date('2023-03-26T00:00:00'); // Data do noivado
+const dataCasamento = new Date('2025-12-05T00:00:00'); // Data do casamento
 
-  if (years > 0) return `${years} ano${years > 1 ? 's' : ''}`;
-  if (months > 0) return `${months} mês${months > 1 ? 'es' : ''}`;
-  if (days > 0) return `${days} dia${days > 1 ? 's' : ''}`;
-  if (hours > 0) return `${hours} hora${hours > 1 ? 's' : ''}`;
-  if (minutes > 0) return `${minutes} minuto${minutes > 1 ? 's' : ''}`;
-  return `${seconds} segundo${seconds > 1 ? 's' : ''}`;
+// Elementos HTML
+const elemNamoro = document.getElementById('namoro');
+const elemNoivado = document.getElementById('noivado');
+const elemCasamento = document.getElementById('casamento');
+const elemCasados = document.getElementById('casados');
+const elemTempoCasados = document.getElementById('tempoCasados');
+const elemHorarioAtual = document.getElementById('horarioAtual');
+
+function calculaTempoDecorrido(dataInicial) {
+  const agora = new Date();
+  const diffMs = agora - dataInicial;
+
+  if(diffMs < 0) return null;
+
+  const dias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diffMs / (1000 * 60)) % 60);
+  const segundos = Math.floor((diffMs / 1000) % 60);
+
+  return { dias, horas, minutos, segundos };
 }
 
-// Atualiza contadores de tempo
-function atualizarContadores() {
-  const namoroInicio = new Date('2021-06-13');    // Data do início do namoro
-  const noivadoInicio = new Date('2024-01-20');   // Data do noivado
-  const casamentoData = new Date('2025-12-15');   // Data do casamento
-
+function calculaTempoRestante(dataFutura) {
   const agora = new Date();
+  const diffMs = dataFutura - agora;
 
-  // Tempo juntos (namoro)
-  const diffNamoro = agora - namoroInicio;
-  document.getElementById('namoro').textContent = formatTimeDiff(diffNamoro);
+  if(diffMs < 0) return null;
 
-  // Tempo de noivado
-  const diffNoivado = agora - noivadoInicio;
-  document.getElementById('noivado').textContent = formatTimeDiff(diffNoivado);
+  const dias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diffMs / (1000 * 60)) % 60);
+  const segundos = Math.floor((diffMs / 1000) % 60);
 
-  // Tempo para casamento
-  const diffCasamento = casamentoData - agora;
-  if (diffCasamento > 0) {
-    document.getElementById('casamento').textContent = formatTimeDiff(diffCasamento);
-    // Mostrar o bloco de contagem regressiva e esconder o "casados"
+  return { dias, horas, minutos, segundos };
+}
+
+function formataTempo(tempo) {
+  if (!tempo) return "0d 0h 0m 0s";
+  return `${tempo.dias}d ${tempo.horas}h ${tempo.minutos}m ${tempo.segundos}s`;
+}
+
+function atualizaContadores() {
+  // Namoro
+  const tempoNamoro = calculaTempoDecorrido(dataNamoro);
+  elemNamoro.textContent = formataTempo(tempoNamoro);
+
+  // Noivado
+  const tempoNoivado = calculaTempoDecorrido(dataNoivado);
+  elemNoivado.textContent = formataTempo(tempoNoivado);
+
+  // Casamento
+  const tempoRestanteCasamento = calculaTempoRestante(dataCasamento);
+
+  if(tempoRestanteCasamento) {
+    elemCasamento.textContent = formataTempo(tempoRestanteCasamento);
     document.getElementById('casamento-bloco').style.display = 'block';
-    document.getElementById('casados').style.display = 'none';
+    elemCasados.parentElement.style.display = 'none';
   } else {
-    // Já casados, mostrar o tempo de casamento e esconder o contador regressivo
-    const diffCasados = agora - casamentoData;
-    document.getElementById('tempoCasados').textContent = formatTimeDiff(diffCasados);
+    // Casados há quanto tempo
+    const tempoCasados = calculaTempoDecorrido(dataCasamento);
+    elemTempoCasados.textContent = formataTempo(tempoCasados);
     document.getElementById('casamento-bloco').style.display = 'none';
-    document.getElementById('casados').style.display = 'block';
+    elemCasados.style.display = 'block';
+    elemCasados.parentElement.style.display = 'block';
   }
 }
 
-// Atualiza horário atual no rodapé
-function atualizarHorario() {
+function atualizaHorario() {
   const agora = new Date();
-  const horarioFormatado = agora.toLocaleTimeString('pt-BR', { hour12: false });
-  document.getElementById('horarioAtual').textContent = horarioFormatado;
+  const hora = String(agora.getHours()).padStart(2, '0');
+  const min = String(agora.getMinutes()).padStart(2, '0');
+  const seg = String(agora.getSeconds()).padStart(2, '0');
+
+  elemHorarioAtual.textContent = `${hora}:${min}:${seg}`;
 }
 
-// Destaca o link ativo no menu de acordo com a seção visível
-function atualizarLinkAtivo() {
-  const links = document.querySelectorAll('.menu-lateral a');
-  let indiceAtivo = -1;
+// Atualiza tudo a cada segundo
+setInterval(() => {
+  atualizaContadores();
+  atualizaHorario();
+}, 1000);
 
-  links.forEach((link, i) => {
-    const href = link.getAttribute('href');
-    if (href && href.startsWith('#')) {
-      const secao = document.querySelector(href);
-      if (secao) {
-        const rect = secao.getBoundingClientRect();
-        if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 4) {
-          indiceAtivo = i;
-        }
-      }
-    }
-  });
-
-  links.forEach((link, i) => {
-    if (i === indiceAtivo) {
-      link.classList.add('active');
-    } else {
-      link.classList.remove('active');
-    }
-  });
-}
-
-// Inicialização e intervalos
-document.addEventListener('DOMContentLoaded', () => {
-  atualizarContadores();
-  atualizarHorario();
-  atualizarLinkAtivo();
-
-  // Atualiza horário a cada segundo
-  setInterval(atualizarHorario, 1000);
-
-  // Atualiza contadores a cada minuto (não precisa tão rápido)
-  setInterval(atualizarContadores, 60000);
-
-  // Atualiza link ativo ao rolar a página
-  window.addEventListener('scroll', atualizarLinkAtivo);
-
-  // Botão voltar ao início
+// Botão voltar ao início
 const btnVoltarInicio = document.getElementById('btn-voltar-inicio');
-
 btnVoltarInicio.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
