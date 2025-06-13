@@ -2,11 +2,10 @@
   --rosa-claro: #ffe6f0;
   --rosa-medio: #ffb6c1;
   --vermelho-romantico: #ff4d6d;
-  --marsala: #6e1e2b;
-  --bege: #f5f5dc;
-  --vinho: #8b0000;
-  --azul-marinho: #2c3e50;
+  --bege: #f5f0e6;
+  --azul-marinho: #003366;
   --branco: #ffffff;
+  --rosa-claro-escuro: #ff99aa;
 }
 
 * {
@@ -19,68 +18,90 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--rosa-claro);
   color: #333;
-  padding: 1rem;
   display: flex;
-  flex-direction: row;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .menu-lateral {
-  background-color: var(--vermelho-romantico);
   width: 220px;
-  padding: 1.5rem;
-  border-radius: 0 20px 20px 0;
-  box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+  background: var(--azul-marinho);
   display: flex;
   flex-direction: column;
+  padding-top: 2rem;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+  position: fixed;
+  top: 0; bottom: 0; left: 0;
+  z-index: 1000;
 }
 
 .menu-lateral ul {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+}
+
+.menu-lateral li {
+  margin: 1rem 0;
 }
 
 .menu-lateral a {
+  display: flex;
+  align-items: center;
+  color: var(--rosa-claro);
   text-decoration: none;
-  color: var(--branco);
   font-weight: 600;
-  padding: 0.7rem 1rem;
-  border-radius: 15px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  display: block;
-  text-align: center;
+  font-size: 1.1rem;
+  padding: 0.7rem 1.5rem;
+  border-left: 4px solid transparent;
+  transition: background-color 0.3s ease, border-left-color 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
+.menu-lateral a i {
+  margin-right: 10px;
+  font-size: 1.3rem;
+  color: var(--rosa-medio);
+  transition: color 0.3s ease;
+}
+
+/* Efeito hover e ativo */
 .menu-lateral a:hover,
 .menu-lateral a.active {
-  background-color: var(--rosa-medio);
-  color: var(--vermelho-romantico);
-  transform: scale(1.05);
+  background-color: var(--vermelho-romantico);
+  border-left-color: var(--rosa-medio);
 }
 
-.botao-voltar {
-  margin-top: auto;
-  background-color: var(--rosa-medio);
-  color: var(--vermelho-romantico);
-  font-weight: 700;
+.menu-lateral a:hover i,
+.menu-lateral a.active i {
+  color: var(--branco);
 }
 
-.botao-voltar:hover {
-  background-color: var(--branco);
-  color: var(--vermelho-romantico);
-  transform: scale(1.1);
+.menu-lateral a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--rosa-medio);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.menu-lateral a:hover::after,
+.menu-lateral a.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .conteudo {
+  margin-left: 240px;
+  padding: 2rem;
   flex: 1;
-  padding: 1rem 2rem;
-  max-width: 700px;
-  margin: auto 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 900px;
+  width: 100%;
 }
 
 header {
@@ -91,12 +112,18 @@ header {
   margin-bottom: 2rem;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
 }
 
 header h1 {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  font-family: 'Georgia', serif;
+}
+
+header p {
+  font-size: 1.3rem;
+  font-style: italic;
+  letter-spacing: 1px;
 }
 
 .contador {
@@ -104,11 +131,11 @@ header h1 {
   justify-content: center;
   gap: 1rem;
   flex-wrap: nowrap;
-  background-color: #fff;
+  background-color: var(--bege);
   padding: 1.5rem;
   border-radius: 20px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  margin-bottom: 2rem;
 }
 
 .bloco {
@@ -119,7 +146,7 @@ header h1 {
   border-radius: 15px;
   text-align: center;
   font-weight: 600;
-  cursor: default;
+  cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   user-select: none;
 }
@@ -134,7 +161,6 @@ header h1 {
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
-  width: 100%;
   margin-bottom: 2rem;
 }
 
@@ -143,8 +169,8 @@ header h1 {
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   object-fit: cover;
-  transition: transform 0.3s ease;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 .galeria img:hover {
@@ -152,13 +178,14 @@ header h1 {
 }
 
 .mensagem {
-  width: 100%;
   background-color: var(--rosa-medio);
   color: var(--branco);
   padding: 2rem;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  font-family: 'Georgia', serif;
+  margin-bottom: 2rem;
 }
 
 .mensagem h2 {
@@ -177,32 +204,67 @@ footer {
   text-align: center;
   padding: 1rem;
   border-radius: 0 0 20px 20px;
-  width: 100%;
   font-weight: 600;
-  margin-top: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* MEDIA QUERIES */
+/* Corações flutuantes */
+.coracoes-container {
+  pointer-events: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0; left: 0;
+  overflow: hidden;
+  z-index: 500;
+}
 
+.coracao {
+  position: absolute;
+  bottom: -50px;
+  width: 20px;
+  height: 20px;
+  background: var(--vermelho-romantico);
+  clip-path: polygon(
+    50% 0%, 61% 15%, 75% 15%, 84% 25%, 88% 35%, 88% 50%, 75% 75%, 50% 100%,
+    25% 75%, 12% 50%, 12% 35%, 16% 25%, 25% 15%, 39% 15%
+  );
+  opacity: 0.8;
+  animation: floatUp linear forwards;
+  filter: drop-shadow(0 0 2px rgba(255, 77, 109, 0.7));
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-110vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
-  body {
-    flex-direction: column;
-  }
-
   .menu-lateral {
-    width: 100%;
-    border-radius: 0 0 20px 20px;
-    flex-direction: row;
-    overflow-x: auto;
+    width: 60px;
+    padding-top: 1rem;
   }
 
-  .menu-lateral ul {
-    flex-direction: row;
-    gap: 0.5rem;
+  .menu-lateral a {
+    justify-content: center;
+    padding: 0.5rem 0;
+    font-size: 0;
+  }
+
+  .menu-lateral a i {
+    margin: 0;
+    font-size: 1.5rem;
   }
 
   .conteudo {
-    max-width: 100%;
+    margin-left: 60px;
     padding: 1rem;
   }
 
@@ -214,63 +276,9 @@ footer {
     flex: 1 1 100%;
     margin-bottom: 1rem;
   }
-  .coracoes-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: -1;
-}
-
-.coracoes-bg::before {
-  content: '💖 💕 💘 💝 💓 💗 💞';
-  font-size: 2rem;
-  animation: coracoes 10s linear infinite;
-  position: absolute;
-  top: -10%; left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-}
-
-@keyframes coracoes {
-  0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-  100% { transform: translateX(-50%) translateY(100vh); opacity: 0; }
-}
-
-.menu-lateral a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.coracoes-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.coracao {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: url('https://i.postimg.cc/7Yf4Ycm8/heart.png') no-repeat center;
-  background-size: contain;
-  animation: flutuar 6s linear infinite;
-}
-
-@keyframes flutuar {
-  0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
-  100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-}
-
 
   .galeria img {
-    width: calc(50% - 0.25rem);
+    width: calc(50% - 0.5rem);
   }
 }
 
