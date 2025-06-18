@@ -81,23 +81,15 @@ function atualizarLinkAtivo() {
   });
 }
 
-// Tocar som romântico ao clicar nos botões do menu lateral
-function adicionarSomClick() {
-  // Coloque o caminho do seu som romântico aqui (mp3, wav, etc)
-  const somClick = new Audio('som-romantico.mp3');
-
-  const botoes = document.querySelectorAll('.menu-lateral a');
-  botoes.forEach(botao => {
-    botao.addEventListener('click', (e) => {
-      e.preventDefault(); // impede navegação imediata para tocar som primeiro
-      somClick.currentTime = 0;
-      somClick.play();
-
-      const href = botao.getAttribute('href');
-      // Navegar para outra página ou seção após som tocar
-      somClick.onended = () => {
-        window.location.href = href;
-      };
+// Scroll suave para links internos (com href começando com #)
+function scrollSuave() {
+  document.querySelectorAll('.menu-lateral a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 }
@@ -107,10 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
   atualizarContadores();
   atualizarHorario();
   atualizarLinkAtivo();
-  adicionarSomClick();
+  scrollSuave();
 
   // Atualizações periódicas
-  setInterval(atualizarHorario, 1000);       // a cada segundo
-  setInterval(atualizarContadores, 1000);    // a cada segundo para contagem em tempo real
+  setInterval(atualizarHorario, 1000);
+  setInterval(atualizarContadores, 1000);
   window.addEventListener('scroll', atualizarLinkAtivo);
 });
